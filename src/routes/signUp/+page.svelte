@@ -1,15 +1,20 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
+	import type { ActionData } from './$types';
 
 	import Avatar from '../lib/components/Avatar.svelte';
+	import Modal from '../lib/components/Modal.svelte';
 
 	export let data: {
 		userId: string;
 		password: string;
 		location: string;
 		nickname: string;
-		profileImg?: string;
+		profileImg: File;
 	};
+	export let form: ActionData;
+
 	const locations = ['서울', '인천', '대전', '광주', '부산', '대구', '울산'];
 	let imgString = '';
 
@@ -28,6 +33,7 @@
 	};
 
 	function handleClickSelectImg() {
+		(document.querySelector('.img-input') as HTMLInputElement).value = '';
 		(document.querySelector('.img-input') as HTMLInputElement).click();
 	}
 </script>
@@ -45,6 +51,7 @@
 				required
 			/>
 			<label for="userId" class="form-label">아이디</label>
+			{#if form?.missingId}<span class="error">{form.message}</span>{/if}
 		</div>
 		<div class="input-wrapper">
 			<input
@@ -56,6 +63,7 @@
 				required
 			/>
 			<label for="password" class="form-label">비밀번호</label>
+			{#if form?.invalid}<span class="error">{form.message}</span>{/if}
 		</div>
 		<div class="input-wrapper">
 			<select
@@ -70,6 +78,7 @@
 				{/each}
 			</select>
 			<label for="password" class="form-label">활동지역</label>
+			{#if form?.missingLoc}<span class="error">{form.message}</span>{/if}
 		</div>
 		<div class="input-wrapper">
 			<input
@@ -81,13 +90,13 @@
 				required
 			/>
 			<label for="password" class="form-label">닉네임</label>
+			{#if form?.missingLoc}<span class="error">{form.message}</span>{/if}
 		</div>
 		<div class="select-img-wrapper">
 			<label for="profileImg">프로필이미지</label>
 			<input
 				class="img-input"
-				value={data.profileImg}
-				required
+				value={data.profileImg || ''}
 				name="profileImg"
 				type="file"
 				accept="image/*"
@@ -97,10 +106,30 @@
 			<button type="button" class="mini-btn flex-none" on:click={handleClickSelectImg}>
 				이미지 넣기
 			</button>
+			{#if form?.missingImg}<span class="error">{form.message}</span>{/if}
 		</div>
 		<button class="custom-btn">회원가입</button>
 	</form>
 </div>
+
+{#if form?.success}
+	<Modal
+		title="회원가입 성공"
+		content="로그인하러 가보시죠!"
+		type="success"
+		callback={() => goto('/signIn')}
+	/>
+{/if}
+{#if form?.error}
+	<Modal
+		title="회원가입 실패"
+		content="서버오류로 회원가입에 실패했습니다. 다시 시도해주세요"
+		type="error"
+		callback={() => {
+			form = null;
+		}}
+	/>
+{/if}
 
 <style>
 	.signUp-wrapper {
@@ -121,6 +150,7 @@
 	}
 
 	.select-img-wrapper {
+		position: relative;
 		display: flex;
 		gap: 1rem;
 		align-items: center;
