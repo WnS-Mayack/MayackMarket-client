@@ -26,6 +26,7 @@
 
 <style>
 	header {
+		position: relative;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -58,6 +59,7 @@
 	}
 
 	footer {
+		position: relative;
 		display: flex;
 		justify-content: center;
 		font-weight: 700;
