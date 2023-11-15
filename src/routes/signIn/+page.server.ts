@@ -1,7 +1,7 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { fail, redirect, type Cookies } from '@sveltejs/kit';
 
 export const actions = {
-	submit: async ({ request }: { request: Request }) => {
+	submit: async ({ cookies, request }: { cookies: Cookies; request: Request }) => {
 		const data = await request.formData();
 		const userId = data.get('userId') as string;
 		const password = data.get('password') as string;
@@ -18,10 +18,16 @@ export const actions = {
 		}
 
 		// TODO: api call if status.ok ? redirect : error.modal
-		const temp = false;
+		const temp = true;
 
 		if (temp) {
 			// TODO: set-cookie and seesion manage
+			cookies.set('login-session', 'userToken', {
+				path: '/',
+				httpOnly: true,
+				sameSite: 'strict',
+				maxAge: 60 * 60 * 24 * 30
+			});
 			throw redirect(303, '/');
 		} else {
 			return fail(403, {

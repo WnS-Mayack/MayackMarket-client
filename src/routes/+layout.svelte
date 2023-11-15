@@ -1,7 +1,9 @@
 <script>
+	import { page } from '$app/stores';
 	import '../styles/global.scss';
 
 	let src = '/logo.png';
+	console.log($page.data.user);
 </script>
 
 <header>
@@ -11,9 +13,13 @@
 	</a>
 	<nav class="head-nav">
 		<ul class="head-nav-list">
-			<li><a href="/signIn">로그인</a></li>
-			<li><a href="/alram">알림확인</a></li>
-			<li><a href="/chat">채팅</a></li>
+			{#if $page.data.user}
+				<li><a href="/my">마이페이지</a></li>
+				<li><a href="/alram">알림확인</a></li>
+				<li><a href="/chat">채팅</a></li>
+			{:else}
+				<li><a href="/signIn">로그인</a></li>
+			{/if}
 		</ul>
 	</nav>
 </header>
