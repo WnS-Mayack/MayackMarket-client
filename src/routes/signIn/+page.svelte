@@ -33,7 +33,7 @@
 		</div>
 		<button class="custom-btn">로그인</button>
 	</form>
-	<span>회원가입</span>
+	<span><a href="/signUp">회원가입</a></span>
 </div>
 
 <style>

@@ -11,7 +11,7 @@
 	</div>
 	<nav class="head-nav">
 		<ul class="head-nav-list">
-			<li><a href="/login">로그인</a></li>
+			<li><a href="/signIn">로그인</a></li>
 			<li><a href="/alram">알림확인</a></li>
 			<li><a href="/chat">채팅</a></li>
 		</ul>
