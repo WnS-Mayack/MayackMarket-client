@@ -9,3 +9,13 @@ main {
 	max-width: 1080px;
 	margin: auto;
 }
+
+a {
+	text-decoration: none; /* 링크에 밑줄 제거 */
+	color: inherit; /* 링크의 텍스트 색상을 부모 요소의 색상으로 상속 */
+	cursor: pointer; /* 커서를 포인터로 변경하여 링크임을 나타냄 */
+
+	&:hover {
+		text-decoration: underline;
+	}
+}

@@ -11,9 +11,9 @@
 	</div>
 	<nav class="head-nav">
 		<ul class="head-nav-list">
-			<li>로그인</li>
-			<li>알림확인</li>
-			<li>채팅</li>
+			<li><a href="/login">로그인</a></li>
+			<li><a href="/alram">알림확인</a></li>
+			<li><a href="/chat">채팅</a></li>
 		</ul>
 	</nav>
 </header>
