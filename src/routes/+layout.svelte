@@ -5,10 +5,10 @@
 </script>
 
 <header>
-	<div class="head-logo">
+	<a href="/" class="head-logo">
 		<img {src} alt="logo" class="head-image" />
 		<span class="head-name">MaYackMarket</span>
-	</div>
+	</a>
 	<nav class="head-nav">
 		<ul class="head-nav-list">
 			<li><a href="/signIn">로그인</a></li>
@@ -22,7 +22,7 @@
 	<slot />
 </main>
 
-<footer>created by dongyounyim</footer>
+<footer>created by I'm_younique</footer>
 
 <style>
 	header {
@@ -35,6 +35,10 @@
 		display: flex;
 		align-items: center;
 		gap: 1rem;
+
+		&:hover {
+			text-decoration: none;
+		}
 	}
 
 	.head-name {
@@ -56,5 +60,6 @@
 	footer {
 		display: flex;
 		justify-content: center;
+		font-weight: 700;
 	}
 </style>
