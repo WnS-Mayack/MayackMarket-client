@@ -1,4 +1,11 @@
 import { fail, redirect, type Cookies } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ locals }) => {
+	if (locals.user) {
+		throw redirect(301, '/');
+	}
+};
 
 export const actions = {
 	submit: async ({ cookies, request }: { cookies: Cookies; request: Request }) => {

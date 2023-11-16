@@ -3,7 +3,6 @@
 	import '../styles/global.scss';
 
 	let src = '/logo.png';
-	console.log($page.data.user);
 </script>
 
 <header>
