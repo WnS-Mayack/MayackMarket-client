@@ -10,7 +10,7 @@
 
 <section class="searchForm-wrapper">
 	<div class="search-container">
-		<label>지역</label>
+		<label for="location">지역</label>
 		<select bind:value={searchData.location} name="location">
 			{#each locations as location}
 				<option value={location}>{location}</option>
@@ -18,7 +18,7 @@
 		</select>
 	</div>
 	<div class="search-container">
-		<label>검색어</label>
+		<label for="serachText">검색어</label>
 		<input
 			type="text"
 			bind:value={searchData.searchText}
@@ -27,7 +27,7 @@
 		/>
 	</div>
 	<div class="search-container">
-		<label>가격</label>
+		<label for="price">가격</label>
 		<input type="number" bind:value={searchData.minPrice} name="minPrice" placeholder="최소 가격" />
 		<span> ~ </span>
 		<input type="number" bind:value={searchData.maxPrice} name="maxPrice" placeholder="최대 가격" />
@@ -62,10 +62,6 @@
 		display: block;
 		margin: auto;
 		font-size: 1rem;
-
-		/* 여기부터 추가 */
-		/* 서식에 배경이미지 표현 */
-		background: url(images/search-solid.png) 4% no-repeat;
 		background-size: 20px;
 		padding-left: 12px; /* 글자 써지는 위치 */
 	}

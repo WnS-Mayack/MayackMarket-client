@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Post } from '../app.js';
+	import { goto } from '$app/navigation';
 
 	import SearchForm from './lib/components/SearchForm.svelte';
 	import PostList from './lib/components/PostList.svelte';
@@ -21,6 +22,10 @@
 		});
 	}
 
+	function goToWrite() {
+		goto('/write');
+	}
+
 	onMount(() => {
 		searchPromise = fetchSearchResult();
 		// TODO: 초기 검색
@@ -36,7 +41,7 @@
 			}}
 		/>
 		{#if data.user}
-			<button class="custom-btn">판매글 쓰기</button>
+			<button class="custom-btn" on:click={goToWrite}>판매글 쓰기</button>
 		{/if}
 	</div>
 
