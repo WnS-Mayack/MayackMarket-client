@@ -15,4 +15,22 @@ declare global {
 	}
 }
 
-export {};
+interface Comment {
+	userId: string;
+	userProfileImg: string;
+	content: string;
+	date: Date;
+}
+
+interface Post {
+	title: string;
+	content: string;
+	writer: string;
+	price: number;
+	images: string[];
+	view: number;
+	like: number;
+	comments: Comment[];
+}
+
+export { Post, Comment };
