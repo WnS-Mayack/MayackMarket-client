@@ -23,7 +23,10 @@ export const actions: Actions = {
 		const data = await request.formData();
 		const title = data.get('title') as string;
 		const location = data.get('location') as string;
+		const images = data.get('images');
 
 		console.log(title, location);
+
+		console.log(images);
 	}
 };

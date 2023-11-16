@@ -1,6 +1,27 @@
 <script lang="ts">
 	import { locations } from '../lib/constants';
 	import { enhance } from '$app/forms';
+
+	let imgString = '';
+
+	const handleFileChange = (event: any) => {
+		const fileInput = event.target;
+		if (fileInput.files.length > 0) {
+			const selectedFile = fileInput.files[0];
+			const reader = new FileReader();
+
+			reader.onload = () => {
+				imgString = reader.result as string;
+			};
+
+			reader.readAsDataURL(selectedFile);
+		}
+	};
+
+	function handleClickSelectImg() {
+		(document.querySelector('.img-input') as HTMLInputElement).value = '';
+		(document.querySelector('.img-input') as HTMLInputElement).click();
+	}
 </script>
 
 <form class="write-wrapper" method="POST" use:enhance>
@@ -22,8 +43,14 @@
 	</div>
 	<div class="single-form-wrapper">
 		<label for="images">사진</label>
-		<input class="img-input" type="file" accept="image/*" multiple name="images" />
-		<button class="mini-btn">이미지 추가하기</button>
+		<input
+			class="img-input"
+			type="file"
+			accept="image/*"
+			name="images"
+			on:change={handleFileChange}
+		/>
+		<button class="mini-btn" type="button" on:click={handleClickSelectImg}>이미지 추가하기</button>
 	</div>
 	<div class="single-form-wrapper">
 		<label for="content">내용</label>
