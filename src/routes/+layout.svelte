@@ -1,19 +1,24 @@
 <script>
+	import { page } from '$app/stores';
 	import '../styles/global.scss';
 
 	let src = '/logo.png';
 </script>
 
 <header>
-	<div class="head-logo">
+	<a href="/" class="head-logo">
 		<img {src} alt="logo" class="head-image" />
 		<span class="head-name">MaYackMarket</span>
-	</div>
+	</a>
 	<nav class="head-nav">
 		<ul class="head-nav-list">
-			<li>로그인</li>
-			<li>알림확인</li>
-			<li>채팅</li>
+			{#if $page.data.user}
+				<li><a href="/my">마이페이지</a></li>
+				<li><a href="/alram">알림확인</a></li>
+				<li><a href="/chat">채팅</a></li>
+			{:else}
+				<li><a href="/signIn">로그인</a></li>
+			{/if}
 		</ul>
 	</nav>
 </header>
@@ -22,10 +27,11 @@
 	<slot />
 </main>
 
-<footer>created by dongyounyim</footer>
+<footer>created by I'm_younique</footer>
 
 <style>
 	header {
+		position: relative;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -35,6 +41,10 @@
 		display: flex;
 		align-items: center;
 		gap: 1rem;
+
+		&:hover {
+			text-decoration: none;
+		}
 	}
 
 	.head-name {
@@ -54,7 +64,9 @@
 	}
 
 	footer {
+		position: relative;
 		display: flex;
 		justify-content: center;
+		font-weight: 700;
 	}
 </style>
