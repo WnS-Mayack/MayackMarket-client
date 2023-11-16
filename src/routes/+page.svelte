@@ -28,12 +28,18 @@
 </script>
 
 <div class="main-wrapper">
-	<SearchForm
-		{searchData}
-		on:click={() => {
-			searchPromise = fetchSearchResult();
-		}}
-	/>
+	<div class="main-header">
+		<SearchForm
+			{searchData}
+			on:click={() => {
+				searchPromise = fetchSearchResult();
+			}}
+		/>
+		{#if data.user}
+			<button class="custom-btn">판매글 쓰기</button>
+		{/if}
+	</div>
+
 	{#await searchPromise}
 		<PostSkeleton />
 	{:then searchResults}
@@ -54,5 +60,11 @@
 		gap: 0.5rem;
 		align-items: center;
 		margin: 2rem 0;
+	}
+	.main-header {
+		width: -webkit-fill-available;
+		display: flex;
+		align-items: center;
+		justify-content: space-evenly;
 	}
 </style>
