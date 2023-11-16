@@ -7,6 +7,7 @@ declare global {
 			user: {
 				userId: string;
 				nickname: string;
+				location: string;
 				img: string;
 			};
 		}

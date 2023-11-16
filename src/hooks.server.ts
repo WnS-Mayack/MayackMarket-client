@@ -17,6 +17,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event.locals.user = {
 			nickname: '임시',
 			userId: 'temp',
+			location: '서울',
 			img: ''
 		};
 	}
