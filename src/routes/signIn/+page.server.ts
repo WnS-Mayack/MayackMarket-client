@@ -25,8 +25,6 @@ export const actions = {
 			return fail(400, { password, invalid: true, message: '비밀번호는 8자 이상 입니다.' });
 		}
 
-		// TODO: api call if status.ok ? redirect : error.modal
-
 		let status = true;
 		const sendData = {
 			account: userId,
@@ -34,11 +32,7 @@ export const actions = {
 		};
 
 		try {
-			const result = await axios.post(
-				`${process.env.VUE_APP_API_BASE_URL}/api/user/login`,
-				sendData
-			);
-			console.log(result);
+			await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/user/login`, sendData);
 			status = true;
 		} catch (error) {
 			status = false;
