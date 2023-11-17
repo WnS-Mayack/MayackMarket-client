@@ -1,5 +1,6 @@
 import { fail, redirect, type Cookies } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import axios from 'axios';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -25,9 +26,25 @@ export const actions = {
 		}
 
 		// TODO: api call if status.ok ? redirect : error.modal
-		const temp = true;
 
-		if (temp) {
+		let status = true;
+		const sendData = {
+			account: userId,
+			password
+		};
+
+		try {
+			const result = await axios.post(
+				`${process.env.VUE_APP_API_BASE_URL}/api/user/login`,
+				sendData
+			);
+			console.log(result);
+			status = true;
+		} catch (error) {
+			status = false;
+			console.log(error);
+		}
+		if (status) {
 			// TODO: set-cookie and seesion manage
 			cookies.set('login-session', 'userToken', {
 				path: '/',
