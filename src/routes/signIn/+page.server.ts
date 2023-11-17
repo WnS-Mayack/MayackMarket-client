@@ -40,7 +40,7 @@ export const actions = {
 		}
 		if (status) {
 			// TODO: set-cookie and seesion manage
-			cookies.set('login-session', 'userToken', {
+			cookies.set('login-session', userId, {
 				path: '/',
 				httpOnly: true,
 				sameSite: 'strict',
