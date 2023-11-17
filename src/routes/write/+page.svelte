@@ -51,6 +51,9 @@
 			on:change={handleFileChange}
 		/>
 		<button class="mini-btn" type="button" on:click={handleClickSelectImg}>이미지 추가하기</button>
+		{#if imgString !== ''}
+			<img class="preview-image" src={imgString} alt="이미지 미리보기" />
+		{/if}
 	</div>
 	<div class="single-form-wrapper">
 		<label for="content">내용</label>
@@ -105,5 +108,10 @@
 
 	.img-input {
 		display: none;
+	}
+
+	.preview-image {
+		width: 15rem;
+		height: 15rem;
 	}
 </style>
