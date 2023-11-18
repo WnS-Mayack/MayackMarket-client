@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Avatar from '../../lib/components/Avatar.svelte';
+	import { SendIcon } from 'svelte-feather-icons';
 </script>
 
 <div class="post-detail-wrapper">
@@ -25,8 +26,11 @@
 	</section>
 	<section class="comment-container">
 		<div />
-		<div>
+		<div class="input-wrapper">
 			<input type="text" placeholder="댓글을 입력해주세요" />
+			<button class="send-icon">
+				<SendIcon size="24" />
+			</button>
 		</div>
 	</section>
 </div>
@@ -34,17 +38,24 @@
 <style lang="scss">
 	.post-detail-wrapper {
 		display: flex;
+		width: 80%;
+		margin-top: 2rem;
+		margin-left: auto;
+		margin-right: auto;
+		gap: 2rem;
 	}
 
 	.post-container {
 		display: flex;
+		width: 50%;
 		flex-direction: column;
 		gap: 1rem;
 	}
 
 	.img-container {
-		width: 18rem;
+		width: 20rem;
 		height: 18rem;
+		text-align: center;
 	}
 
 	.user-info {
@@ -54,6 +65,10 @@
 	}
 
 	.post-detail {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+
 		& > :nth-child(1) {
 			display: flex;
 			justify-content: space-between;
@@ -63,7 +78,7 @@
 
 	.comment-container {
 		position: relative;
-		width: inherit;
+		width: 50%;
 		display: flex;
 		flex-direction: column;
 
@@ -75,6 +90,7 @@
 		& > :nth-child(2) {
 			position: absolute;
 			bottom: 0;
+			width: 100%;
 
 			input {
 				width: 100%;
@@ -86,6 +102,19 @@
 				font-size: 1rem;
 				background-size: 20px;
 				padding-left: 12px; /* 글자 써지는 위치 */
+			}
+
+			.send-icon {
+				background: inherit;
+				border: none;
+				box-shadow: none;
+				border-radius: 0;
+				padding: 0;
+				overflow: visible;
+				cursor: pointer;
+				position: absolute;
+				top: 6px;
+				right: 0;
 			}
 		}
 	}
