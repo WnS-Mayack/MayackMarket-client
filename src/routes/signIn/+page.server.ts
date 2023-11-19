@@ -14,9 +14,6 @@ export const actions = {
 		const userId = data.get('userId') as string;
 		const password = data.get('password') as string;
 
-		console.log('userId : ', userId);
-		console.log('password : ', password);
-
 		// before call api check
 		if (!userId) {
 			return fail(400, { userId, missing: true, message: '이메일은 필수 입니다.' });
@@ -32,7 +29,7 @@ export const actions = {
 		};
 
 		try {
-			await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/user/login`, sendData);
+			await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/users/login`, sendData);
 			status = true;
 		} catch (error) {
 			status = false;
@@ -40,7 +37,7 @@ export const actions = {
 		}
 		if (status) {
 			// TODO: set-cookie and seesion manage
-			cookies.set('login-session', userId, {
+			cookies.set('account', userId, {
 				path: '/',
 				httpOnly: true,
 				sameSite: 'strict',
