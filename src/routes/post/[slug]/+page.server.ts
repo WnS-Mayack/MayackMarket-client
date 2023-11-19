@@ -34,6 +34,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const isSeller = account === locals.user.userId;
 
 	return {
+		postId: slug,
+		userId: locals.user.userId,
 		title,
 		description,
 		imagePath,
