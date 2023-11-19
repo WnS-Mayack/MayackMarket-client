@@ -1,34 +1,29 @@
 import type { Handle } from '@sveltejs/kit';
+import axios from 'axios';
 
 export const handle: Handle = async ({ event, resolve }) => {
-	const session = event.cookies.get('login-session');
+	const session = event.cookies.get('account');
 
 	if (!session) {
 		return await resolve(event);
 	}
 
-	// 유저 데이터 get
-	// const user = await db.user.findUnique({
-	// 	where: { userAuthToken: session },
-	// 	select: { username: true, role: true }
-	// });
+	const headers = {
+		account: session
+	};
+
+	const res = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/users`, { headers });
+
+	const { nickname, profileImgPath, account, region } = res.data;
 
 	if (session) {
 		event.locals.user = {
-			nickname: '임시',
-			userId: 'temp',
-			location: '서울',
-			img: ''
+			nickname,
+			userId: account,
+			location: region,
+			img: profileImgPath
 		};
 	}
-
-	// 유저데이터 전역저장
-	// if (user) {
-	// 	event.locals.user = {
-	// 		username: user.username,
-	// 		role: user.role
-	// 	};
-	// }
 
 	return await resolve(event);
 };
