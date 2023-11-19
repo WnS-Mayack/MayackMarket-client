@@ -10,7 +10,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 	};
 
 	if (locals.user) {
-		// TODO: 사용자 정보를 기반으로 searchData를 수정합니다 (예: 위치 데이터 초기화)
 		searchData.location = locals.user.location;
 	}
 

@@ -56,7 +56,9 @@
 		<PostSkeleton />
 	{:then searchResults}
 		{#if searchResults instanceof Array && searchResults.length > 0}
-			<PostList {searchResults} />
+			{#each searchResults as searchResult}
+				<PostList {searchResult} />
+			{/each}
 		{:else}
 			<h2>검색결과 없음</h2>
 		{/if}
