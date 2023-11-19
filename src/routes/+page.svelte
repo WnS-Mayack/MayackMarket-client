@@ -56,9 +56,11 @@
 		<PostSkeleton />
 	{:then searchResults}
 		{#if searchResults instanceof Array && searchResults.length > 0}
-			{#each searchResults as searchResult}
-				<PostList {searchResult} />
-			{/each}
+			<section class="post-grid">
+				{#each searchResults as searchResult}
+					<PostList {searchResult} />
+				{/each}
+			</section>
 		{:else}
 			<h2>검색결과 없음</h2>
 		{/if}
@@ -80,5 +82,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-evenly;
+	}
+
+	.post-grid {
+		display: grid;
+		align-self: flex-start;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+		gap: 1rem;
 	}
 </style>

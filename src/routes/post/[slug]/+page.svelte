@@ -1,27 +1,57 @@
 <script lang="ts">
-	import Avatar from '../../lib/components/Avatar.svelte';
 	import { SendIcon } from 'svelte-feather-icons';
+	import Avatar from '../../lib/components/Avatar.svelte';
+	export let data;
+
+	const {
+		title,
+		description,
+		imagePath,
+		price,
+		likeCount,
+		seenCount,
+		comments,
+		itemStatus,
+		isSeller,
+		sellerNickname,
+		sellerImg
+	} = data;
+
+	// TODO: 댓글 입력 (댓글 입력하면 수동 배열 수동 업데이트)
+	// TODO: 판매 (판매 모달 및 선택) 구매 (구매하시겠습니까 모달)
+	// TODO: 댓글 보이게 하기 (댓글 컴포넌트 생성)
+	// TODO: 관심 표시 및 해제
 </script>
 
 <div class="post-detail-wrapper">
 	<section class="post-container">
 		<div class="img-container">
-			<img src="" alt="게시글 이미지" />
+			<img src={`http://168.188.123.234:8080${imagePath}`} alt="게시글 이미지" />
 		</div>
 		<div class="user-info">
-			<span>유저닉네임</span>
-			<div>판매하기 or 구매하기</div>
+			<div class="seller-div">
+				<Avatar imgString={`http://168.188.123.234:8080${sellerImg}`} size={24} />
+				{sellerNickname}
+			</div>
+			<div>
+				{#if isSeller}
+					<button class="mini-btn">판매하기</button>
+				{:else}
+					<span>좋아요하기</span>
+					<button class="mini-btn">구매하기</button>
+				{/if}
+			</div>
 		</div>
 		<div class="post-detail">
 			<div>
-				<span>게시글 제목</span>
+				<span class="post-title">{title}</span>
 				<div>
-					<span>조회</span>
-					<span>관심</span>
+					<span>조회: {seenCount}</span>
+					<span>관심: {likeCount}</span>
 				</div>
 			</div>
-			<div>가격</div>
-			<div>게시글 내용</div>
+			<div class="post-price">{price.toLocaleString()}</div>
+			<div>{description}</div>
 		</div>
 	</section>
 	<section class="comment-container">
@@ -61,6 +91,12 @@
 	.user-info {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
+	}
+
+	.seller-div {
+		display: flex;
+		gap: 0.5rem;
 		align-items: center;
 	}
 
