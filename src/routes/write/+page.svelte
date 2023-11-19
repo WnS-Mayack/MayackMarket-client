@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { locations } from '../lib/constants';
 	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
+	import type { ActionData } from './$types';
+	import Modal from '../lib/components/Modal.svelte';
+
+	export let form: ActionData;
 
 	let imgString = '';
 
@@ -61,6 +66,25 @@
 	</div>
 	<button class="custom-btn">판매하기</button>
 </form>
+
+{#if form?.success}
+	<Modal
+		title="게시글 업로드 성공"
+		content="게시글을 성공적으로 업로드했습니다!"
+		type="success"
+		callback={() => goto('/')}
+	/>
+{/if}
+{#if form?.error}
+	<Modal
+		title="게시글 업로드 실패"
+		content="서버오류로 게시글 업로드에 실패했습니다. 다시 시도해주세요"
+		type="error"
+		callback={() => {
+			form = null;
+		}}
+	/>
+{/if}
 
 <style>
 	input,
