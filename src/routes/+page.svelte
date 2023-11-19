@@ -6,6 +6,7 @@
 	import SearchForm from './lib/components/SearchForm.svelte';
 	import PostList from './lib/components/PostList.svelte';
 	import PostSkeleton from './lib/components/PostSkeleton.svelte';
+	import axios from 'axios';
 
 	export let data; // user정보와, 초기화된 search 정보 담김
 
@@ -14,12 +15,19 @@
 
 	// const searchResults: Omit<Post, 'comments' | 'writer'>[] = [];
 
-	function fetchSearchResult() {
-		return new Promise((resolve, reject) => {
-			setTimeout(() => {
-				resolve('[]');
-			}, 2000);
-		});
+	async function fetchSearchResult() {
+		const params = {
+			title: searchData.searchText,
+			region: searchData.location,
+			minPrice: searchData.minPrice,
+			maxPrice: searchData.maxPrice
+		};
+		try {
+			const res = await axios.get(`http://43.201.161.245:8080/api/posts`, { params });
+			return res.data;
+		} catch (error) {
+			throw new Error('error');
+		}
 	}
 
 	function goToWrite() {
@@ -28,7 +36,6 @@
 
 	onMount(() => {
 		searchPromise = fetchSearchResult();
-		// TODO: 초기 검색
 	});
 </script>
 
