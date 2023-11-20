@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 
-export const prerender = true;
+export const prerender = 'auto';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	// searchData를 기본값으로 초기화합니다.
