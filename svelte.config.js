@@ -5,8 +5,6 @@ import { vitePreprocess } from '@sveltejs/kit/vite';
 
 // const env = dotenv.config().parsed;
 
-const dev = process.argv.includes('dev');
-
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
@@ -20,9 +18,6 @@ const config = {
 		adapter: adapter({
 			fallback: 'index.html'
 		}),
-		paths: {
-			base: dev ? '' : process.env.BASE_PATH
-		},
 		prerender: {
 			entries: []
 		}
