@@ -2,6 +2,8 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
+	import Modal from '../lib/components/Modal.svelte';
+
 	export let data: { userId: string; password: string };
 	export let form: ActionData;
 </script>
@@ -37,6 +39,17 @@
 	</form>
 	<span><a href="/signUp">회원가입</a></span>
 </div>
+
+{#if form?.error}
+	<Modal
+		title="로그인 실패"
+		content="아이디 비밀번호를 확인하고 다시 시도해주세요."
+		type="error"
+		callback={() => {
+			form = null;
+		}}
+	/>
+{/if}
 
 <style>
 	.login-wrapper {

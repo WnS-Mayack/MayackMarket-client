@@ -1,5 +1,6 @@
 import { fail, redirect, type Cookies } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import axios from 'axios';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -13,9 +14,6 @@ export const actions = {
 		const userId = data.get('userId') as string;
 		const password = data.get('password') as string;
 
-		console.log('userId : ', userId);
-		console.log('password : ', password);
-
 		// before call api check
 		if (!userId) {
 			return fail(400, { userId, missing: true, message: '이메일은 필수 입니다.' });
@@ -24,12 +22,22 @@ export const actions = {
 			return fail(400, { password, invalid: true, message: '비밀번호는 8자 이상 입니다.' });
 		}
 
-		// TODO: api call if status.ok ? redirect : error.modal
-		const temp = true;
+		let status = true;
+		const sendData = {
+			account: userId,
+			password
+		};
 
-		if (temp) {
+		try {
+			await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/users/login`, sendData);
+			status = true;
+		} catch (error) {
+			status = false;
+			console.log(error);
+		}
+		if (status) {
 			// TODO: set-cookie and seesion manage
-			cookies.set('login-session', 'userToken', {
+			cookies.set('account', userId, {
 				path: '/',
 				httpOnly: true,
 				sameSite: 'strict',

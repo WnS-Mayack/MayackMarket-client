@@ -1,4 +1,5 @@
 import { fail } from '@sveltejs/kit';
+import axios from 'axios';
 
 export const actions = {
 	submit: async ({ request }: { request: Request }) => {
@@ -26,11 +27,47 @@ export const actions = {
 			return fail(400, { profileImg, missingImg: true, message: '프로필이미지는 필수 입니다.' });
 		}
 
-		// TODO: api call if status.ok ? success.modal : error.modal
-		const temp = true;
+		const headers = {
+			account: userId
+		};
 
-		if (temp) {
-			// TODO: set-cookie and seesion manage
+		// 프로필 이미지 저장
+		const formData = new FormData();
+		formData.append('file', profileImg);
+
+		let imgDataUrl;
+
+		try {
+			const res = await axios.post(
+				`${process.env.VUE_APP_IMAGE_BASE_URL}/user/mayack/${userId}`,
+				formData
+			);
+			imgDataUrl = res.data;
+			console.log(imgDataUrl);
+		} catch (error) {
+			console.error(error);
+		}
+		let status = true;
+
+		const sendData = {
+			password,
+			nickname,
+			account: userId,
+			region: location,
+			profileImagePath: imgDataUrl
+		};
+
+		try {
+			await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/users/sign-up`, sendData, {
+				headers
+			});
+			status = true;
+		} catch (error) {
+			console.error(error);
+			status = false;
+		}
+
+		if (status) {
 			return { success: true };
 		} else {
 			console.log('fail');

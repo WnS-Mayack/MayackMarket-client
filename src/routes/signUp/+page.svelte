@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
+	import { locations } from '../lib/constants';
 	import type { ActionData } from './$types';
 
 	import Avatar from '../lib/components/Avatar.svelte';
@@ -15,7 +16,6 @@
 	};
 	export let form: ActionData;
 
-	const locations = ['서울', '인천', '대전', '광주', '부산', '대구', '울산'];
 	let imgString = '';
 
 	const handleFileChange = (event: any) => {
