@@ -1,10 +1,32 @@
 <script lang="ts">
-	export let searchResult;
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import Modal from './Modal.svelte';
+	interface ISearchResult {
+		id: number;
+		title: string;
+		price: number;
+		seenCount: number;
+		likeCount: number;
+		imagePath: string;
+	}
+
+	let modalOpen = false;
+
+	function handleGoDetail() {
+		if ($page.data.user) {
+			goto(`post/${id}`);
+		} else {
+			modalOpen = true;
+		}
+	}
+
+	export let searchResult: ISearchResult;
 
 	const { id, title, price, seenCount, likeCount, imagePath } = searchResult;
 </script>
 
-<a href={`post/${id}`} class="post-wrapper">
+<div class="post-wrapper" on:click={handleGoDetail}>
 	<div class="post-img-wrapper">
 		<img src={`http://168.188.123.234:8080${imagePath}`} alt="판매 이미지" />
 	</div>
@@ -16,7 +38,19 @@
 			<span>좋아요: {likeCount}</span>
 		</div>
 	</div>
-</a>
+</div>
+
+{#if modalOpen}
+	<Modal
+		title="로그인이 필요합니다"
+		content="로그인 후에 이용해주세요"
+		type="error"
+		callback={() => {
+			modalOpen = false;
+			goto('/signIn');
+		}}
+	/>
+{/if}
 
 <style lang="scss">
 	.post-wrapper {
