@@ -1,5 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { redirect, fail, type Cookies } from '@sveltejs/kit';
+import { base } from '$app/paths';
 import type { Actions } from './$types';
 import axios from 'axios';
 
@@ -7,7 +8,7 @@ export const prerender = false;
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
-		throw redirect(301, '/');
+		throw redirect(301, `${base}/`);
 	}
 	// searchData를 기본값으로 초기화합니다.
 	const formData = {

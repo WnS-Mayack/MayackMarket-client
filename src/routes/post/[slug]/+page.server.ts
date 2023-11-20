@@ -1,4 +1,5 @@
 import type { PageServerLoad } from './$types';
+import { base } from '$app/paths';
 import { redirect } from '@sveltejs/kit';
 import axios from 'axios';
 
@@ -6,7 +7,7 @@ export const prerender = false;
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	if (!locals.user) {
-		throw redirect(301, '/');
+		throw redirect(301, `${base}/`);
 	}
 	const headers = {
 		account: locals.user.userId

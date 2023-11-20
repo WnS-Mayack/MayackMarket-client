@@ -1,4 +1,5 @@
 import { fail, redirect, type Cookies } from '@sveltejs/kit';
+import { base } from '$app/paths';
 import type { PageServerLoad } from './$types';
 import axios from 'axios';
 
@@ -6,7 +7,7 @@ export const prerender = false;
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
-		throw redirect(301, '/');
+		throw redirect(301, `${base}/`);
 	}
 };
 
@@ -38,14 +39,12 @@ export const actions = {
 			console.log(error);
 		}
 		if (status) {
-			// TODO: set-cookie and seesion manage
 			cookies.set('account', userId, {
-				path: '/',
+				path: `${base}/`,
 				httpOnly: true,
-				sameSite: 'strict',
 				maxAge: 60 * 60 * 24 * 30
 			});
-			throw redirect(303, '/');
+			throw redirect(303, `${base}/`);
 		} else {
 			return fail(403, {
 				description: 'login failed',

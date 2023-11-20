@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { Post } from '../app.js';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	import SearchForm from './lib/components/SearchForm.svelte';
 	import PostList from './lib/components/PostList.svelte';
@@ -29,7 +30,7 @@
 	}
 
 	function goToWrite() {
-		goto('/write');
+		goto(`${base}/write`);
 	}
 
 	onMount(() => {
