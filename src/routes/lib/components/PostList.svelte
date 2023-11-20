@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import Modal from './Modal.svelte';
 	interface ISearchResult {
@@ -15,7 +16,7 @@
 
 	function handleGoDetail() {
 		if ($page.data.user) {
-			goto(`post/${id}`);
+			goto(`${base}/post/${id}`);
 		} else {
 			modalOpen = true;
 		}
@@ -47,7 +48,7 @@
 		type="error"
 		callback={() => {
 			modalOpen = false;
-			goto('/signIn');
+			goto(`${base}/signIn`);
 		}}
 	/>
 {/if}

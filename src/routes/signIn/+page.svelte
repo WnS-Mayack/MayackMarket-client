@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { base } from '$app/paths';
 	import type { ActionData } from './$types';
 
 	import Modal from '../lib/components/Modal.svelte';
@@ -37,7 +38,7 @@
 		</div>
 		<button class="custom-btn">로그인</button>
 	</form>
-	<span><a href="/signUp">회원가입</a></span>
+	<span><a href={`${base}/signUp`}>회원가입</a></span>
 </div>
 
 {#if form?.error}

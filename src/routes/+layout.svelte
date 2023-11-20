@@ -1,5 +1,6 @@
 <script>
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 	import '../styles/global.scss';
 
 	let src = '/logo.png';
@@ -13,11 +14,11 @@
 	<nav class="head-nav">
 		<ul class="head-nav-list">
 			{#if $page.data.user}
-				<li><a href="/my">마이페이지</a></li>
-				<li><a href="/alram">알림확인</a></li>
-				<li><a href="/chat">채팅</a></li>
+				<li><a href={`${base}/my`}>마이페이지</a></li>
+				<li><a href={`${base}/alram`}>알림확인</a></li>
+				<li><a href={`${base}/chat`}>채팅</a></li>
 			{:else}
-				<li><a href="/signIn">로그인</a></li>
+				<li><a href={`${base}/signIn`}>로그인</a></li>
 			{/if}
 		</ul>
 	</nav>

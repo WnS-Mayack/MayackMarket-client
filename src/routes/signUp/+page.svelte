@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { enhance } from '$app/forms';
 	import { locations } from '../lib/constants';
 	import type { ActionData } from './$types';
@@ -117,7 +118,7 @@
 		title="회원가입 성공"
 		content="로그인하러 가보시죠!"
 		type="success"
-		callback={() => goto('/signIn')}
+		callback={() => goto(`${base}/signIn`)}
 	/>
 {/if}
 {#if form?.error}

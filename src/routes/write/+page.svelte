@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { locations } from '../lib/constants';
 	import { enhance } from '$app/forms';
+	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import type { ActionData } from './$types';
 	import Modal from '../lib/components/Modal.svelte';
@@ -72,7 +73,7 @@
 		title="게시글 업로드 성공"
 		content="게시글을 성공적으로 업로드했습니다!"
 		type="success"
-		callback={() => goto('/')}
+		callback={() => goto(`${base}/`)}
 	/>
 {/if}
 {#if form?.error}
