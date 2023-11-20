@@ -13,8 +13,6 @@
 	let searchData = data.searchData;
 	let searchPromise: Promise<Omit<Post, 'comments' | 'writer'>[]> | Promise<unknown>;
 
-	// const searchResults: Omit<Post, 'comments' | 'writer'>[] = [];
-
 	async function fetchSearchResult() {
 		const params = {
 			title: searchData.searchText,
