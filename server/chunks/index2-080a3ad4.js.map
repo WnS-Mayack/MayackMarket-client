@@ -1,0 +1,1 @@
+{"version":3,"file":"index2-080a3ad4.js","sources":["../../../.svelte-kit/adapter-node/chunks/index2.js"],"sourcesContent":["const locations = [\"서울\", \"인천\", \"대전\", \"광주\", \"부산\", \"대구\", \"울산\"];\nexport {\n  locations as l\n};\n"],"names":[],"mappings":"AAAK,MAAC,SAAS,GAAG,CAAC,IAAI,EAAE,IAAI,EAAE,IAAI,EAAE,IAAI,EAAE,IAAI,EAAE,IAAI,EAAE,IAAI;;;;"}
