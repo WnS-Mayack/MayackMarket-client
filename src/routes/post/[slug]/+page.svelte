@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { SendIcon } from 'svelte-feather-icons';
 	import Avatar from '../../lib/components/Avatar.svelte';
+	import Modal from '../../lib/components/Modal.svelte';
 	import Comments from '../../lib/components/Comments.svelte';
 	import axios from 'axios';
 	export let data;
@@ -25,10 +27,22 @@
 
 	let commentsList = comments;
 
+	let hasLike = false;
+	let likes = likeCount;
+
+	let buyModalOpen = false;
+	let sellModalOpen = false;
+
+	let buyer: any[] = [];
+
+	let item_status = itemStatus;
+
+	const headers = {
+		account: userId
+	};
+
+	// 댓글 추가
 	async function AddComments() {
-		const headers = {
-			account: userId
-		};
 		const sendData = {
 			postId,
 			content: commentValue
@@ -48,9 +62,48 @@
 		commentValue = '';
 	}
 
-	// TODO: 판매 (판매 모달 및 선택) 구매 (구매하시겠습니까 모달)
-	// TODO: 댓글 보이게 하기 (댓글 컴포넌트 생성)
-	// TODO: 관심 표시 및 해제
+	async function handleLike() {
+		await axios.post(
+			`http://43.201.161.245:8080/api/posts/like/${postId}`,
+			{ id: postId },
+			{ headers }
+		);
+
+		if (!hasLike) {
+			hasLike = true;
+			likes = likeCount + 1;
+		}
+	}
+
+	async function handleBuy() {
+		buyModalOpen = false;
+		await axios.post(
+			`http://43.201.161.245:8080/api/orders/${postId}/buy`,
+			{ postId },
+			{ headers }
+		);
+	}
+
+	async function getBuyerList() {
+		const res = await axios.get(`http://43.201.161.245:8080/api/orders/${postId}/buy`, { headers });
+
+		buyer = res.data.users;
+	}
+
+	async function handleSell(buyerId: number) {
+		sellModalOpen = false;
+		await axios.post(
+			`http://43.201.161.245:8080/api/orders/${postId}/sell/${buyerId}`,
+			{ postId },
+			{ headers }
+		);
+
+		item_status = 'SOLD_OUT';
+	}
+
+	onMount(() => {
+		getBuyerList();
+	});
 </script>
 
 <div class="post-detail-wrapper">
@@ -64,11 +117,23 @@
 				{sellerNickname}
 			</div>
 			<div>
-				{#if isSeller}
-					<button class="mini-btn">판매하기</button>
+				{#if item_status === 'SOLD_OUT'}
+					<span>판매완료</span>
+				{:else if isSeller}
+					<button
+						class="mini-btn"
+						on:click={() => {
+							sellModalOpen = true;
+						}}>판매하기</button
+					>
 				{:else}
-					<span>좋아요하기</span>
-					<button class="mini-btn">구매하기</button>
+					<button class="mini-btn" on:click={handleLike}>관심</button>
+					<button
+						class="mini-btn"
+						on:click={() => {
+							buyModalOpen = true;
+						}}>구매하기</button
+					>
 				{/if}
 			</div>
 		</div>
@@ -77,7 +142,7 @@
 				<span class="post-title">{title}</span>
 				<div>
 					<span>조회: {seenCount}</span>
-					<span>관심: {likeCount}</span>
+					<span>관심: {likes}</span>
 				</div>
 			</div>
 			<div class="post-price">{price.toLocaleString()}</div>
@@ -86,9 +151,11 @@
 	</section>
 	<section class="comment-container">
 		<div class="commnet-wrapper">
-			{#each commentsList as comment}
-				<Comments {comment} />
-			{/each}
+			{#if commentsList.length > 0}
+				{#each commentsList as comment}
+					<Comments {comment} />
+				{/each}
+			{/if}
 		</div>
 		<div class="input-wrapper">
 			<input type="text" bind:value={commentValue} placeholder="댓글을 입력해주세요" />
@@ -98,6 +165,42 @@
 		</div>
 	</section>
 </div>
+
+{#if buyModalOpen}
+	<Modal
+		title="구매하시겠습니까?"
+		content="판매자가 구매 승인하면 구매확정됩니다."
+		type="success"
+		callback={handleBuy}
+	/>
+{/if}
+
+{#if sellModalOpen}
+	<div class="sellModal">
+		<div class="sellmodalContainer">
+			<h3>판매자 확정하기</h3>
+			{#if buyer.length === 0}
+				<h2>구매하려는 유저가 없습니다.</h2>
+			{:else}
+				<div class="buyer-wrapper">
+					{#each buyer as buyUser}
+						<div class="buyer">
+							<div>
+								<Avatar
+									imgString={`http://168.188.123.234:8080${buyUser.profileImgPath}`}
+									size={24}
+								/>
+								<span>{buyUser.nickname}</span>
+							</div>
+							<button class="mini-btn" on:click={() => handleSell(buyUser.id)}>판매확정</button>
+						</div>
+					{/each}
+					<div class="buyer" />
+				</div>
+			{/if}
+		</div>
+	</div>
+{/if}
 
 <style lang="scss">
 	.post-detail-wrapper {
@@ -188,6 +291,47 @@
 				top: 6px;
 				right: 0;
 			}
+		}
+	}
+
+	.sellModal {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
+		background: rgba(0, 0, 0, 0.7);
+	}
+
+	.sellmodalContainer {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: white;
+		padding: 1rem;
+		border-radius: 16px;
+		min-width: 16rem;
+		max-height: 70vh;
+		overflow-y: scroll;
+	}
+
+	.buyer-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.buyer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		& > :nth-child(1) {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
 		}
 	}
 </style>
