@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { SendIcon } from 'svelte-feather-icons';
 	import Avatar from '../../lib/components/Avatar.svelte';
+	import Comments from '../../lib/components/Comments.svelte';
 	import axios from 'axios';
 	export let data;
 
@@ -22,9 +23,7 @@
 
 	let commentValue = '';
 
-	console.log(comments);
-
-	$: commentsList = comments;
+	let commentsList = comments;
 
 	async function AddComments() {
 		const headers = {
@@ -37,8 +36,16 @@
 		await axios.post(`http://43.201.161.245:8080/api/comments`, sendData, {
 			headers
 		});
-		console.log('댓글 업데이트');
-		// TODO: 코멘트 리스트 확인하고 update comment list
+		const commentData = {
+			author: {
+				profileImgPath: data.user.img,
+				nickname: data.user.nickname
+			},
+			content: commentValue,
+			modifyAt: new Date()
+		};
+		commentsList = [...comments, commentData];
+		commentValue = '';
 	}
 
 	// TODO: 판매 (판매 모달 및 선택) 구매 (구매하시겠습니까 모달)
@@ -78,7 +85,11 @@
 		</div>
 	</section>
 	<section class="comment-container">
-		<div />
+		<div class="commnet-wrapper">
+			{#each commentsList as comment}
+				<Comments {comment} />
+			{/each}
+		</div>
 		<div class="input-wrapper">
 			<input type="text" bind:value={commentValue} placeholder="댓글을 입력해주세요" />
 			<button class="send-icon" on:click={AddComments}>
@@ -144,6 +155,8 @@
 		& > :nth-child(1) {
 			display: flex;
 			flex-direction: column;
+			height: 90%;
+			overflow-y: scroll;
 		}
 
 		& > :nth-child(2) {
