@@ -12,7 +12,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		account: session
 	};
 
-	const res = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/users`, { headers });
+	const res = await axios.get(`http://43.201.161.245:8080/api/users`, { headers });
 
 	const { nickname, profileImgPath, account, region } = res.data;
 

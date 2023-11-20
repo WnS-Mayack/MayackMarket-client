@@ -223,6 +223,12 @@
 		width: 20rem;
 		height: 18rem;
 		text-align: center;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
 	}
 
 	.user-info {

@@ -204,13 +204,6 @@
 		gap: 2rem;
 	}
 
-	.post-grid {
-		display: grid;
-		align-self: flex-start;
-		grid-template-columns: 1fr 1fr 1fr 1fr;
-		gap: 1rem;
-	}
-
 	.keywords-list {
 		margin-top: 0.5rem;
 		display: flex;

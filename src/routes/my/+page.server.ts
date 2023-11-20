@@ -2,6 +2,8 @@ import { redirect, type Cookies } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import type { PageServerLoad } from './$types';
 
+export const prerender = false;
+
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		throw redirect(301, '/');
