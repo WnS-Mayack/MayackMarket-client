@@ -4,7 +4,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	// searchData를 기본값으로 초기화합니다.
 	const searchData = {
 		searchText: '',
-		location: '',
+		location: '서울',
 		minPrice: null,
 		maxPrice: null
 	};
